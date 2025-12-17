@@ -5,6 +5,7 @@ on:
     branches: [ "main", "dev", "ci" ]
     paths:
       - '.github/workflows/build-manager.yml'
+      - '.github/workflows/build-lkm.yml'
       - '.github/workflows/ksud.yml'
       - 'manager/**'
       - 'kernel/**'
@@ -19,6 +20,11 @@ on:
       - 'kernel/**'
       - 'userspace/**'
   workflow_call:
+
+jobs:
+  build-lkm:
+    uses: ./.github/workflows/build-lkm.yml
+    secrets: inherit
 
   build-ksuinit:
     uses: ./.github/workflows/ksuinit.yml
