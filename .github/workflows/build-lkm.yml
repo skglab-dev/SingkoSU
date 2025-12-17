@@ -7,6 +7,8 @@ jobs:
     strategy:
       matrix:
         kmi:
+          - android11-5.4
+          - android12-5.4
           - android12-5.10
           - android13-5.10
           - android13-5.15
