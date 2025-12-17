@@ -16,13 +16,21 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.add
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
+import androidx.compose.foundation.layout.displayCutout
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
@@ -32,6 +40,7 @@ import androidx.compose.material.icons.rounded.Link
 import androidx.compose.material.icons.rounded.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
@@ -46,7 +55,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -56,7 +64,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
@@ -75,6 +82,7 @@ import dev.chrisbanes.haze.hazeEffect
 import dev.chrisbanes.haze.hazeSource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -90,10 +98,7 @@ import me.weishu.kernelsu.ui.theme.isInDarkTheme
 import me.weishu.kernelsu.ui.util.DownloadListener
 import me.weishu.kernelsu.ui.util.download
 import me.weishu.kernelsu.ui.util.isNetworkAvailable
-import me.weishu.kernelsu.ui.util.module.UpdateState
-import me.weishu.kernelsu.ui.util.module.compareVersionCode
 import me.weishu.kernelsu.ui.util.module.fetchModuleDetail
-import me.weishu.kernelsu.ui.util.module.fetchReleaseDescriptionHtml
 import me.weishu.kernelsu.ui.viewmodel.ModuleRepoViewModel
 import me.weishu.kernelsu.ui.viewmodel.ModuleViewModel
 import top.yukonga.miuix.kmp.basic.Card
@@ -125,7 +130,6 @@ import top.yukonga.miuix.kmp.icon.icons.useful.NavigatorSwitch
 import top.yukonga.miuix.kmp.icon.icons.useful.Save
 import top.yukonga.miuix.kmp.theme.MiuixTheme.colorScheme
 import top.yukonga.miuix.kmp.utils.PressFeedbackType
-import top.yukonga.miuix.kmp.utils.getWindowSize
 import top.yukonga.miuix.kmp.utils.overScrollVertical
 import top.yukonga.miuix.kmp.utils.scrollEndHaptic
 import java.text.Collator
@@ -168,21 +172,16 @@ data class RepoModuleArg(
 @SuppressLint("LocalContextGetResourceValueCall")
 @Composable
 @Destination<RootGraph>
-fun ModuleRepoPager(
+fun ModuleRepoScreen(
     navigator: DestinationsNavigator,
-    bottomInnerPadding: Dp
 ) {
     val viewModel = viewModel<ModuleRepoViewModel>()
     val installedVm = viewModel<ModuleViewModel>()
     val searchStatus by viewModel.searchStatus
     val context = LocalContext.current
     val prefs = context.getSharedPreferences("settings", Context.MODE_PRIVATE)
-    val isDark = isInDarkTheme(prefs.getInt("color_mode", 0))
-    val actionIconTint = colorScheme.onSurface.copy(alpha = if (isDark) 0.7f else 0.9f)
-    val updateBg = colorScheme.tertiaryContainer.copy(alpha = 0.6f)
-    val updateTint = colorScheme.onTertiaryContainer.copy(alpha = 0.8f)
-    val scope = rememberCoroutineScope()
-    val repoSortUpdateFirstState = remember { mutableStateOf(prefs.getBoolean("module_repo_sort_update_first", true)) }
+    val metaBg = colorScheme.tertiaryContainer.copy(alpha = 0.6f)
+    val metaTint = colorScheme.onTertiaryContainer.copy(alpha = 0.8f)
     val repoSortByNameState = remember { mutableStateOf(prefs.getBoolean("module_repo_sort_name", false)) }
 
     LaunchedEffect(Unit) {
@@ -194,29 +193,20 @@ fun ModuleRepoPager(
         }
     }
 
-    val scrollBehavior = MiuixScrollBehavior()
-    var collapsedFraction by remember { mutableFloatStateOf(scrollBehavior.state.collapsedFraction) }
-    LaunchedEffect(scrollBehavior.state) {
-        snapshotFlow { scrollBehavior.state.collapsedFraction }.collectLatest { collapsedFraction = it }
+    LaunchedEffect(searchStatus.searchText) {
+        viewModel.updateSearchText(searchStatus.searchText)
     }
-    val dynamicTopPadding = 12.dp * (1f - collapsedFraction)
+
+    val scrollBehavior = MiuixScrollBehavior()
+    val dynamicTopPadding by remember {
+        derivedStateOf { 12.dp * (1f - scrollBehavior.state.collapsedFraction) }
+    }
 
     val hazeState = remember { HazeState() }
     val hazeStyle = HazeStyle(
         backgroundColor = colorScheme.surface,
         tint = HazeTint(colorScheme.surface.copy(0.8f))
     )
-
-    val onInstallModule: (Uri) -> Unit = { uri ->
-        navigator.navigate(FlashScreenDestination(FlashIt.FlashModules(listOf(uri)))) {
-            launchSingleTop = true
-        }
-    }
-
-    val confirmTitle = stringResource(R.string.module_install)
-    val updateTitle = stringResource(R.string.module_update)
-    var pendingDownload by remember { mutableStateOf<(() -> Unit)?>(null) }
-    val confirmDialog = rememberConfirmDialog(onConfirm = { pendingDownload?.invoke() })
 
     Scaffold(
         topBar = {
@@ -234,21 +224,8 @@ fun ModuleRepoPager(
                         ) {
                             ListPopupColumn {
                                 DropdownImpl(
-                                    text = stringResource(R.string.module_repos_sort_update_first),
-                                    optionSize = 2,
-                                    isSelected = repoSortUpdateFirstState.value,
-                                    onSelectedIndexChange = {
-                                        repoSortUpdateFirstState.value = !repoSortUpdateFirstState.value
-                                        prefs.edit {
-                                            putBoolean("module_repo_sort_update_first", repoSortUpdateFirstState.value)
-                                        }
-                                        showTopPopup.value = false
-                                    },
-                                    index = 0
-                                )
-                                DropdownImpl(
                                     text = stringResource(R.string.module_repos_sort_name),
-                                    optionSize = 2,
+                                    optionSize = 1,
                                     isSelected = repoSortByNameState.value,
                                     onSelectedIndexChange = {
                                         repoSortByNameState.value = !repoSortByNameState.value
@@ -257,7 +234,7 @@ fun ModuleRepoPager(
                                         }
                                         showTopPopup.value = false
                                     },
-                                    index = 1
+                                    index = 0
                                 )
                             }
                         }
@@ -269,6 +246,19 @@ fun ModuleRepoPager(
                             Icon(
                                 imageVector = MiuixIcons.Useful.ImmersionMore,
                                 contentDescription = stringResource(id = R.string.settings),
+                                tint = colorScheme.onSurface
+                            )
+                        }
+                    },
+                    navigationIcon = {
+                        IconButton(
+                            modifier = Modifier.padding(start = 16.dp),
+                            onClick = { navigator.popBackStack() }
+
+                        ) {
+                            Icon(
+                                imageVector = MiuixIcons.Useful.Back,
+                                contentDescription = null,
                                 tint = colorScheme.onSurface
                             )
                         }
@@ -287,19 +277,9 @@ fun ModuleRepoPager(
                 }
                 val displaySearch = run {
                     val base = viewModel.searchResults.value
-                    val updateFirst = repoSortUpdateFirstState.value
                     val sortByName = repoSortByNameState.value
                     val collator = Collator.getInstance(Locale.getDefault())
-                    val sortedBase = if (!sortByName) base else base.sortedWith(compareBy(collator) { it.moduleName })
-                    if (!updateFirst) sortedBase else {
-                        val (updatable, others) = sortedBase.partition { module ->
-                            val installed = installedVm.moduleList.firstOrNull { it.id == module.moduleId }
-                            compareVersionCode(installed?.versionCode, module.latestVersionCode) == UpdateState.CAN_UPDATE
-                        }
-                        val up = if (!sortByName) updatable else updatable.sortedWith(compareBy(collator) { it.moduleName })
-                        val ot = if (!sortByName) others else others.sortedWith(compareBy(collator) { it.moduleName })
-                        up + ot
-                    }
+                    if (!sortByName) base else base.sortedWith(compareBy(collator) { it.moduleName })
                 }
                 items(displaySearch, key = { it.moduleId }) { module ->
                     Card(
@@ -336,11 +316,11 @@ fun ModuleRepoPager(
                                         Text(
                                             text = "META",
                                             fontSize = 12.sp,
-                                            color = updateTint,
+                                            color = metaTint,
                                             modifier = Modifier
                                                 .padding(start = 6.dp)
                                                 .clip(ContinuousRoundedRectangle(6.dp))
-                                                .background(updateBg)
+                                                .background(metaBg)
                                                 .padding(horizontal = 6.dp, vertical = 2.dp),
                                             fontWeight = FontWeight(750),
                                             maxLines = 1
@@ -423,7 +403,6 @@ fun ModuleRepoPager(
                 }
             }
         } else {
-            LaunchedEffect(searchStatus.searchText) { viewModel.updateSearchText(searchStatus.searchText) }
             searchStatus.SearchBox(
                 searchBarTopPadding = dynamicTopPadding,
                 contentPadding = PaddingValues(
@@ -463,23 +442,13 @@ fun ModuleRepoPager(
                 ) {
                     val displayModules = run {
                         val base = viewModel.modules.value
-                        val updateFirst = repoSortUpdateFirstState.value
                         val sortByName = repoSortByNameState.value
                         val collator = Collator.getInstance(Locale.getDefault())
-                        val sortedBase = if (!sortByName) base else base.sortedWith(compareBy(collator) { it.moduleName })
-                        if (!updateFirst) sortedBase else {
-                            val (updatable, others) = sortedBase.partition { module ->
-                                val installed = installedVm.moduleList.firstOrNull { it.id == module.moduleId }
-                                compareVersionCode(installed?.versionCode, module.latestVersionCode) == UpdateState.CAN_UPDATE
-                            }
-                            val up = if (!sortByName) updatable else updatable.sortedWith(compareBy(collator) { it.moduleName })
-                            val ot = if (!sortByName) others else others.sortedWith(compareBy(collator) { it.moduleName })
-                            up + ot
-                        }
+                        if (!sortByName) base else base.sortedWith(compareBy(collator) { it.moduleName })
                     }
                     LazyColumn(
                         modifier = Modifier
-                            .height(getWindowSize().height.dp)
+                            .fillMaxHeight()
                             .scrollEndHaptic()
                             .overScrollVertical()
                             .nestedScroll(scrollBehavior.nestedScrollConnection)
@@ -496,9 +465,6 @@ fun ModuleRepoPager(
                             key = { it.moduleId },
                             contentType = { "module" }
                         ) { module ->
-                            val latestTag = module.latestRelease
-                            val latestAsset = module.latestAsset
-
                             val moduleAuthor = stringResource(id = R.string.module_author)
 
                             Card(
@@ -537,32 +503,15 @@ fun ModuleRepoPager(
                                                 Text(
                                                     text = "META",
                                                     fontSize = 12.sp,
-                                                    color = updateTint,
+                                                    color = metaTint,
                                                     modifier = Modifier
                                                         .padding(start = 6.dp)
                                                         .clip(ContinuousRoundedRectangle(6.dp))
-                                                        .background(updateBg)
+                                                        .background(metaBg)
                                                         .padding(horizontal = 6.dp, vertical = 2.dp),
                                                     fontWeight = FontWeight(750),
                                                     maxLines = 1
                                                 )
-                                            }
-                                            Spacer(Modifier.weight(1f))
-                                            if (module.stargazerCount > 0) {
-                                                Row(verticalAlignment = Alignment.CenterVertically) {
-                                                    Icon(
-                                                        imageVector = Icons.Rounded.Star,
-                                                        contentDescription = "stars",
-                                                        tint = colorScheme.onSurfaceVariantSummary,
-                                                        modifier = Modifier.size(16.dp)
-                                                    )
-                                                    Text(
-                                                        text = module.stargazerCount.toString(),
-                                                        fontSize = 12.sp,
-                                                        color = colorScheme.onSurfaceVariantSummary,
-                                                        modifier = Modifier.padding(start = 4.dp)
-                                                    )
-                                                }
                                             }
                                         }
                                     }
@@ -600,14 +549,24 @@ fun ModuleRepoPager(
                                         verticalAlignment = Alignment.CenterVertically,
                                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                                     ) {
-                                        Column {
-                                            Text(
-                                                text = latestTag,
-                                                fontSize = 12.sp,
-                                                modifier = Modifier.padding(top = 2.dp),
-                                                fontWeight = FontWeight(550),
-                                                color = colorScheme.onSurfaceVariantSummary,
-                                            )
+                                        Row {
+                                            if (module.stargazerCount > 0) {
+                                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                                    Icon(
+                                                        imageVector = Icons.Rounded.Star,
+                                                        contentDescription = "stars",
+                                                        tint = colorScheme.onSurfaceVariantSummary,
+                                                        modifier = Modifier.size(16.dp)
+                                                    )
+                                                    Text(
+                                                        text = module.stargazerCount.toString(),
+                                                        fontSize = 12.sp,
+                                                        color = colorScheme.onSurfaceVariantSummary,
+                                                        modifier = Modifier.padding(start = 4.dp)
+                                                    )
+                                                }
+                                            }
+                                            Spacer(Modifier.weight(1f))
                                             if (module.latestReleaseTime.isNotEmpty()) {
                                                 Text(
                                                     text = module.latestReleaseTime,
@@ -617,122 +576,16 @@ fun ModuleRepoPager(
                                                 )
                                             }
                                         }
-                                        Spacer(Modifier.weight(1f))
-                                        if (latestAsset != null) {
-                                            val fileName = latestAsset.name
-                                            stringResource(R.string.module_downloading)
-                                            var isDownloading by remember(fileName, latestAsset.downloadUrl) { mutableStateOf(false) }
-                                            var progress by remember(fileName, latestAsset.downloadUrl) { mutableIntStateOf(0) }
-                                            val installed = installedVm.moduleList.firstOrNull { it.id == module.moduleId }
-                                            val repoCode = module.latestVersionCode
-                                            val state = compareVersionCode(installed?.versionCode, repoCode)
-                                            val canUpdateByCode = state == UpdateState.CAN_UPDATE
-                                            val equalByCode = state == UpdateState.EQUAL
-                                            val olderByCode = state == UpdateState.OLDER
-                                            IconButton(
-                                                backgroundColor = if (canUpdateByCode) updateBg else colorScheme.secondaryContainer.copy(
-                                                    alpha = 0.8f
-                                                ),
-                                                minHeight = 35.dp,
-                                                minWidth = 35.dp,
-                                                enabled = !isDownloading && !olderByCode,
-                                                onClick = {
-                                                    pendingDownload = {
-                                                        isDownloading = true
-                                                        scope.launch(Dispatchers.IO) {
-                                                            download(
-                                                                latestAsset.downloadUrl,
-                                                                fileName,
-                                                                onDownloaded = onInstallModule,
-                                                                onDownloading = { isDownloading = true },
-                                                                onProgress = { p -> scope.launch(Dispatchers.Main) { progress = p } }
-                                                            )
-                                                        }
-                                                    }
-                                                    val startDownloadingText =
-                                                        context.getString(R.string.module_start_downloading, fileName)
-                                                    if (canUpdateByCode) {
-                                                        var confirmContent = startDownloadingText
-                                                        var confirmHtml = false
-                                                        scope.launch(Dispatchers.IO) {
-                                                            runCatching {
-                                                                val html = fetchReleaseDescriptionHtml(module.moduleId, latestTag)
-                                                                if (html != null) {
-                                                                    confirmContent = html
-                                                                    confirmHtml = true
-                                                                }
-                                                            }.onSuccess {
-                                                                withContext(Dispatchers.Main) {
-                                                                    confirmDialog.showConfirm(
-                                                                        title = updateTitle,
-                                                                        content = confirmContent,
-                                                                        html = confirmHtml
-                                                                    )
-                                                                }
-                                                            }.onFailure {
-                                                                withContext(Dispatchers.Main) {
-                                                                    confirmDialog.showConfirm(
-                                                                        title = confirmTitle,
-                                                                        content = startDownloadingText
-                                                                    )
-                                                                }
-                                                            }
-                                                        }
-                                                    } else {
-                                                        confirmDialog.showConfirm(
-                                                            title = confirmTitle,
-                                                            content = startDownloadingText
-                                                        )
-                                                    }
-                                                },
-                                            ) {
-                                                if (isDownloading) {
-                                                    CircularProgressIndicator(
-                                                        progress = progress / 100f,
-                                                        size = 20.dp,
-                                                        strokeWidth = 2.dp
-                                                    )
-                                                } else {
-                                                    Row(
-                                                        modifier = Modifier.padding(horizontal = 10.dp),
-                                                        verticalAlignment = Alignment.CenterVertically,
-                                                    ) {
-                                                        Icon(
-                                                            modifier = Modifier.size(20.dp),
-                                                            imageVector = MiuixIcons.Useful.Save,
-                                                            tint = if (canUpdateByCode) updateTint else actionIconTint,
-                                                            contentDescription = when {
-                                                                canUpdateByCode -> stringResource(R.string.module_update)
-                                                                equalByCode -> stringResource(R.string.module_reinstall)
-                                                                else -> stringResource(R.string.install)
-                                                            }
-                                                        )
-                                                        Text(
-                                                            modifier = Modifier.padding(start = 4.dp, end = 2.dp),
-                                                            text = when {
-                                                                canUpdateByCode -> stringResource(R.string.module_update)
-                                                                equalByCode -> stringResource(R.string.module_reinstall)
-                                                                else -> stringResource(R.string.install)
-                                                            },
-                                                            color = if (canUpdateByCode) updateTint else actionIconTint,
-                                                            fontWeight = FontWeight.Medium,
-                                                            fontSize = 15.sp
-                                                        )
-                                                    }
-                                                }
-                                            }
-                                        }
                                     }
                                 }
                             }
                         }
                         item {
-                            Spacer(Modifier.height(bottomInnerPadding))
+                            Spacer(Modifier.height(WindowInsets.systemBars.asPaddingValues().calculateBottomPadding()))
                         }
                     }
                 }
             }
-            DownloadListener(context, onInstallModule)
         }
     }
 }
@@ -745,15 +598,18 @@ private fun ReadmePage(
     scrollBehavior: ScrollBehavior,
     hazeState: HazeState
 ) {
+    val layoutDirection = LocalLayoutDirection.current
     LazyColumn(
         modifier = Modifier
-            .height(getWindowSize().height.dp)
+            .fillMaxHeight()
             .scrollEndHaptic()
             .overScrollVertical()
             .nestedScroll(scrollBehavior.nestedScrollConnection)
             .hazeSource(state = hazeState),
         contentPadding = PaddingValues(
             top = innerPadding.calculateTopPadding(),
+            start = innerPadding.calculateStartPadding(layoutDirection),
+            end = innerPadding.calculateEndPadding(layoutDirection),
             bottom = innerPadding.calculateBottomPadding(),
         ),
         overscrollEffect = null,
@@ -796,15 +652,18 @@ fun ReleasesPage(
     context: Context,
     setPendingDownload: ((() -> Unit)) -> Unit,
 ) {
+    val layoutDirection = LocalLayoutDirection.current
     LazyColumn(
         modifier = Modifier
-            .height(getWindowSize().height.dp)
+            .fillMaxHeight()
             .scrollEndHaptic()
             .overScrollVertical()
             .nestedScroll(scrollBehavior.nestedScrollConnection)
             .hazeSource(state = hazeState),
         contentPadding = PaddingValues(
             top = innerPadding.calculateTopPadding(),
+            start = innerPadding.calculateStartPadding(layoutDirection),
+            end = innerPadding.calculateEndPadding(layoutDirection),
             bottom = innerPadding.calculateBottomPadding(),
         ),
         overscrollEffect = null,
@@ -989,7 +848,6 @@ fun ReleasesPage(
                 }
             }
         }
-        item { Spacer(Modifier.height(12.dp)) }
     }
 }
 
@@ -1004,15 +862,18 @@ fun InfoPage(
     uriHandler: UriHandler,
     sourceUrl: String,
 ) {
+    val layoutDirection = LocalLayoutDirection.current
     LazyColumn(
         modifier = Modifier
-            .height(getWindowSize().height.dp)
+            .fillMaxHeight()
             .scrollEndHaptic()
             .overScrollVertical()
             .nestedScroll(scrollBehavior.nestedScrollConnection)
             .hazeSource(state = hazeState),
         contentPadding = PaddingValues(
             top = innerPadding.calculateTopPadding(),
+            start = innerPadding.calculateStartPadding(layoutDirection),
+            end = innerPadding.calculateEndPadding(layoutDirection),
             bottom = innerPadding.calculateBottomPadding(),
         ),
         overscrollEffect = null,
@@ -1201,7 +1062,8 @@ fun ModuleRepoDetailScreen(
                     }
                 }
             )
-        }
+        },
+        contentWindowInsets = WindowInsets.systemBars.add(WindowInsets.displayCutout).only(WindowInsetsSides.Horizontal),
     ) { innerPadding ->
         LaunchedEffect(module.moduleId) {
             if (module.moduleId.isNotEmpty()) {
@@ -1239,23 +1101,94 @@ fun ModuleRepoDetailScreen(
             stringResource(R.string.tab_info)
         )
         val pagerState = rememberPagerState(initialPage = 0, pageCount = { tabs.size })
-        val density = LocalDensity.current
-        var tabRowHeight by remember { mutableStateOf(0.dp) }
+        LocalDensity.current
+        val tabRowHeight by remember { mutableStateOf(40.dp) }
         var collapsedFraction by remember { mutableFloatStateOf(scrollBehavior.state.collapsedFraction) }
         LaunchedEffect(scrollBehavior.state.collapsedFraction) {
             snapshotFlow { scrollBehavior.state.collapsedFraction }.collectLatest { collapsedFraction = it }
         }
-        val dynamicTopPadding = 12.dp * (1f - collapsedFraction)
+        val dynamicTopPadding by remember { derivedStateOf { 12.dp * (1f - collapsedFraction) } }
+        val layoutDirection = LocalLayoutDirection.current
         Box(
             modifier = Modifier.fillMaxSize()
         ) {
+            var userScrollEnabled by remember { mutableStateOf(true) }
+            var animating by remember { mutableStateOf(false) }
+            var animateJob by remember { mutableStateOf<Job?>(null) }
+            var tabSelectedIndex by remember { mutableIntStateOf(pagerState.currentPage) }
+            var lastRequestedIndex by remember { mutableIntStateOf(pagerState.currentPage) }
+            LaunchedEffect(pagerState) {
+                snapshotFlow { pagerState.currentPage }.collectLatest { page ->
+                    if (!animating) tabSelectedIndex = page
+                }
+            }
+            Column(
+                modifier = Modifier
+                    .hazeEffect(hazeState) {
+                        style = hazeStyle
+                        blurRadius = 30.dp
+                        noiseFactor = 0f
+                    }
+                    .zIndex(1f)
+                    .padding(
+                        top = innerPadding.calculateTopPadding() + dynamicTopPadding,
+                        start = innerPadding.calculateStartPadding(layoutDirection),
+                        end = innerPadding.calculateEndPadding(layoutDirection),
+                        bottom = 6.dp
+                    )
+                    .padding(horizontal = 12.dp)
+            ) {
+                TabRow(
+                    tabs = tabs,
+                    selectedTabIndex = tabSelectedIndex,
+                    onTabSelected = { index ->
+                        tabSelectedIndex = index
+                        if (index == pagerState.currentPage) {
+                            if (animateJob != null && lastRequestedIndex != index) {
+                                animateJob?.cancel()
+                                animateJob = null
+                                animating = false
+                                userScrollEnabled = true
+                            }
+                            lastRequestedIndex = index
+                        } else {
+                            if (animateJob != null && lastRequestedIndex == index) {
+                                // Already animating to the requested page
+                            } else {
+                                animateJob?.cancel()
+                                animating = true
+                                userScrollEnabled = false
+                                val job = scope.launch {
+                                    try {
+                                        pagerState.animateScrollToPage(index)
+                                    } finally {
+                                        if (animateJob === this) {
+                                            userScrollEnabled = true
+                                            animating = false
+                                            animateJob = null
+                                        }
+                                    }
+                                }
+                                animateJob = job
+                                lastRequestedIndex = index
+                            }
+                        }
+                    },
+                    colors = TabRowDefaults.tabRowColors(backgroundColor = Color.Transparent),
+                    height = tabRowHeight,
+                )
+            }
             HorizontalPager(
                 state = pagerState,
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize(),
+                beyondViewportPageCount = 3,
+                userScrollEnabled = userScrollEnabled,
             ) { page ->
                 val innerPadding = PaddingValues(
                     top = innerPadding.calculateTopPadding() + tabRowHeight + dynamicTopPadding + 6.dp,
-                    bottom = innerPadding.calculateBottomPadding()
+                    start = innerPadding.calculateStartPadding(layoutDirection),
+                    end = innerPadding.calculateEndPadding(layoutDirection),
+                    bottom = innerPadding.calculateBottomPadding() + WindowInsets.systemBars.asPaddingValues().calculateBottomPadding()
                 )
                 when (page) {
                     0 -> ReadmePage(
@@ -1292,30 +1225,6 @@ fun ModuleRepoDetailScreen(
                         sourceUrl = sourceUrl,
                     )
                 }
-            }
-            Column(
-                modifier = Modifier
-                    .hazeEffect(hazeState) {
-                        style = hazeStyle
-                        blurRadius = 30.dp
-                        noiseFactor = 0f
-                    }
-                    .zIndex(1f)
-                    .padding(top = innerPadding.calculateTopPadding() + dynamicTopPadding, bottom = 6.dp)
-                    .padding(horizontal = 12.dp)
-                    .onSizeChanged { size ->
-                        tabRowHeight = with(density) { size.height.toDp() }
-                    }
-            ) {
-                TabRow(
-                    tabs = tabs,
-                    selectedTabIndex = pagerState.currentPage,
-                    onTabSelected = { index -> scope.launch { pagerState.animateScrollToPage(index) } },
-                    colors = TabRowDefaults.tabRowColors(
-                        backgroundColor = Color.Transparent,
-                    ),
-                    height = 40.dp,
-                )
             }
         }
         DownloadListener(context, onInstallModule)

@@ -32,6 +32,7 @@ import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.displayCutout
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.ime
@@ -88,6 +89,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.kyant.capsule.ContinuousRoundedRectangle
 import com.ramcosta.composedestinations.generated.destinations.ExecuteModuleActionScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.FlashScreenDestination
+import com.ramcosta.composedestinations.generated.destinations.ModuleRepoScreenDestination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.HazeStyle
@@ -146,7 +148,7 @@ import top.yukonga.miuix.kmp.utils.getWindowSize
 import top.yukonga.miuix.kmp.utils.overScrollVertical
 import top.yukonga.miuix.kmp.utils.scrollEndHaptic
 
-@SuppressLint("StringFormatInvalid")
+@SuppressLint("StringFormatInvalid", "LocalContextGetResourceValueCall")
 @Composable
 fun ModulePager(
     navigator: DestinationsNavigator,
@@ -168,12 +170,12 @@ fun ModulePager(
                 viewModel.sortEnabledFirst = prefs.getBoolean("module_sort_enabled_first", false)
                 viewModel.sortActionFirst = prefs.getBoolean("module_sort_action_first", false)
                 viewModel.fetchModuleList()
-                scope.launch { viewModel.refreshRepoIndex(); viewModel.syncModuleUpdateInfo(viewModel.moduleList) }
+                scope.launch { viewModel.syncModuleUpdateInfo(viewModel.moduleList) }
             }
 
             viewModel.isNeedRefresh -> {
                 viewModel.fetchModuleList()
-                scope.launch { viewModel.refreshRepoIndex(); viewModel.syncModuleUpdateInfo(viewModel.moduleList) }
+                scope.launch { viewModel.syncModuleUpdateInfo(viewModel.moduleList) }
             }
         }
     }
@@ -479,6 +481,22 @@ fun ModulePager(
                             alignment = PopupPositionProvider.Align.TopRight
                         )
                     },
+                    navigationIcon = {
+                        IconButton(
+                            modifier = Modifier.padding(start = 16.dp),
+                            onClick = {
+                                navigator.navigate(ModuleRepoScreenDestination) {
+                                    launchSingleTop = true
+                                }
+                            },
+                        ) {
+                            Icon(
+                                imageVector = MiuixIcons.Useful.Save,
+                                tint = colorScheme.onSurface,
+                                contentDescription = stringResource(id = R.string.settings)
+                            )
+                        }
+                    },
                     scrollBehavior = scrollBehavior
                 )
             }
@@ -548,7 +566,7 @@ fun ModulePager(
                             Icons.Rounded.Add,
                             moduleInstall,
                             modifier = Modifier.size(40.dp),
-                            tint = Color.White
+                            tint = colorScheme.onPrimary
                         )
                     },
                 )
@@ -809,7 +827,8 @@ private fun ModuleList(
                 ),
             ) {
                 LazyColumn(
-                    modifier = modifier.height(getWindowSize().height.dp),
+                    modifier = modifier
+                        .fillMaxHeight(),
                     contentPadding = PaddingValues(
                         top = innerPadding.calculateTopPadding() + boxHeight.value + 6.dp,
                         start = innerPadding.calculateStartPadding(layoutDirection),

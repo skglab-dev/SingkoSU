@@ -12,8 +12,9 @@
 #include "ksud.h"
 #include "supercalls.h"
 #include "ksu.h"
+#include "file_wrapper.h"
 
-struct cred* ksu_cred;
+struct cred *ksu_cred;
 
 int __init kernelsu_init(void)
 {
@@ -43,6 +44,8 @@ int __init kernelsu_init(void)
     ksu_throne_tracker_init();
 
     ksu_ksud_init();
+
+    ksu_file_wrapper_init();
 
 #ifdef MODULE
 #ifndef CONFIG_KSU_DEBUG
@@ -85,4 +88,3 @@ MODULE_IMPORT_NS("VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver");
 #else
 MODULE_IMPORT_NS(VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver);
 #endif
-
