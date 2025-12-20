@@ -1,4 +1,4 @@
-package me.weishu.kernelsu.ui.viewmodel
+package com.skg.singkosu.ui.viewmodel
 
 import android.content.ComponentName
 import android.content.Context
@@ -28,13 +28,13 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import kotlinx.parcelize.Parcelize
-import me.weishu.kernelsu.IKsuInterface
-import me.weishu.kernelsu.Natives
-import me.weishu.kernelsu.ksuApp
-import me.weishu.kernelsu.ui.KsuService
-import me.weishu.kernelsu.ui.component.SearchStatus
-import me.weishu.kernelsu.ui.util.HanziToPinyin
-import me.weishu.kernelsu.ui.util.KsuCli
+import com.skg.singkosu.IKsuInterface
+import com.skg.singkosu.Natives
+import com.skg.singkosu.ksuApp
+import com.skg.singkosu.ui.KsuService
+import com.skg.singkosu.ui.component.SearchStatus
+import com.skg.singkosu.ui.util.HanziToPinyin
+import com.skg.singkosu.ui.util.KsuCli
 import java.text.Collator
 import java.util.Locale
 import kotlin.coroutines.resume

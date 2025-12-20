@@ -1,4 +1,4 @@
-package me.weishu.kernelsu.ui.screen
+package com.skg.singkosu.ui.screen
 
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
@@ -41,15 +41,15 @@ import dev.chrisbanes.haze.HazeStyle
 import dev.chrisbanes.haze.HazeTint
 import dev.chrisbanes.haze.hazeEffect
 import dev.chrisbanes.haze.hazeSource
-import me.weishu.kernelsu.Natives
-import me.weishu.kernelsu.R
-import me.weishu.kernelsu.ui.component.EditText
-import me.weishu.kernelsu.ui.component.profile.RootProfileConfig
-import me.weishu.kernelsu.ui.util.deleteAppProfileTemplate
-import me.weishu.kernelsu.ui.util.getAppProfileTemplate
-import me.weishu.kernelsu.ui.util.setAppProfileTemplate
-import me.weishu.kernelsu.ui.viewmodel.TemplateViewModel
-import me.weishu.kernelsu.ui.viewmodel.toJSON
+import com.skg.singkosu.Natives
+import com.skg.singkosu.R
+import com.skg.singkosu.ui.component.EditText
+import com.skg.singkosu.ui.component.profile.RootProfileConfig
+import com.skg.singkosu.ui.util.deleteAppProfileTemplate
+import com.skg.singkosu.ui.util.getAppProfileTemplate
+import com.skg.singkosu.ui.util.setAppProfileTemplate
+import com.skg.singkosu.ui.viewmodel.TemplateViewModel
+import com.skg.singkosu.ui.viewmodel.toJSON
 import top.yukonga.miuix.kmp.basic.Card
 import top.yukonga.miuix.kmp.basic.Icon
 import top.yukonga.miuix.kmp.basic.IconButton

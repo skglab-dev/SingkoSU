@@ -1,4 +1,4 @@
-package me.weishu.kernelsu.ui.screen
+package com.skg.singkosu.ui.screen
 
 import android.net.Uri
 import android.os.Environment
@@ -51,15 +51,15 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.parcelize.Parcelize
-import me.weishu.kernelsu.R
-import me.weishu.kernelsu.ui.component.KeyEventBlocker
-import me.weishu.kernelsu.ui.util.FlashResult
-import me.weishu.kernelsu.ui.util.LkmSelection
-import me.weishu.kernelsu.ui.util.flashModule
-import me.weishu.kernelsu.ui.util.installBoot
-import me.weishu.kernelsu.ui.util.reboot
-import me.weishu.kernelsu.ui.util.restoreBoot
-import me.weishu.kernelsu.ui.util.uninstallPermanently
+import com.skg.singkosu.R
+import com.skg.singkosu.ui.component.KeyEventBlocker
+import com.skg.singkosu.ui.util.FlashResult
+import com.skg.singkosu.ui.util.LkmSelection
+import com.skg.singkosu.ui.util.flashModule
+import com.skg.singkosu.ui.util.installBoot
+import com.skg.singkosu.ui.util.reboot
+import com.skg.singkosu.ui.util.restoreBoot
+import com.skg.singkosu.ui.util.uninstallPermanently
 import top.yukonga.miuix.kmp.basic.FloatingActionButton
 import top.yukonga.miuix.kmp.basic.Icon
 import top.yukonga.miuix.kmp.basic.IconButton

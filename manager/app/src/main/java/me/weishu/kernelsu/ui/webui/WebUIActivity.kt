@@ -1,4 +1,4 @@
-package me.weishu.kernelsu.ui.webui
+package com.skg.singkosu.ui.webui
 
 import android.annotation.SuppressLint
 import android.app.ActivityManager
@@ -24,8 +24,8 @@ import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.CancellableContinuation
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
-import me.weishu.kernelsu.ui.util.createRootShell
-import me.weishu.kernelsu.ui.viewmodel.SuperUserViewModel
+import com.skg.singkosu.ui.util.createRootShell
+import com.skg.singkosu.ui.viewmodel.SuperUserViewModel
 import top.yukonga.miuix.kmp.basic.InfiniteProgressIndicator
 import java.io.File
 

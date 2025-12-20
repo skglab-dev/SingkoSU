@@ -1,4 +1,4 @@
-package me.weishu.kernelsu.ui.screen
+package com.skg.singkosu.ui.screen
 
 import android.annotation.SuppressLint
 import android.widget.Toast
@@ -78,9 +78,9 @@ import dev.chrisbanes.haze.hazeSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import me.weishu.kernelsu.R
-import me.weishu.kernelsu.ui.component.DropdownItem
-import me.weishu.kernelsu.ui.viewmodel.TemplateViewModel
+import com.skg.singkosu.R
+import com.skg.singkosu.ui.component.DropdownItem
+import com.skg.singkosu.ui.viewmodel.TemplateViewModel
 import top.yukonga.miuix.kmp.basic.Card
 import top.yukonga.miuix.kmp.basic.FloatingActionButton
 import top.yukonga.miuix.kmp.basic.HorizontalDivider

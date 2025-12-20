@@ -1,11 +1,11 @@
-package me.weishu.kernelsu.ui.util
+package com.skg.singkosu.ui.util
 
 import android.content.Context
 import android.os.Build
 import android.system.Os
 import com.topjohnwu.superuser.ShellUtils
-import me.weishu.kernelsu.Natives
-import me.weishu.kernelsu.ui.screen.getManagerVersion
+import com.skg.singkosu.Natives
+import com.skg.singkosu.ui.screen.getManagerVersion
 import java.io.File
 import java.io.FileWriter
 import java.io.PrintWriter

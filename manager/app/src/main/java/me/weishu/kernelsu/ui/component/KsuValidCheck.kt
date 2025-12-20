@@ -1,7 +1,7 @@
-package me.weishu.kernelsu.ui.component
+package com.skg.singkosu.ui.component
 
 import androidx.compose.runtime.Composable
-import me.weishu.kernelsu.Natives
+import com.skg.singkosu.Natives
 
 @Composable
 fun KsuIsValid(

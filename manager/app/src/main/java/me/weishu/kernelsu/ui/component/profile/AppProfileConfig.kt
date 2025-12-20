@@ -1,4 +1,4 @@
-package me.weishu.kernelsu.ui.component.profile
+package com.skg.singkosu.ui.component.profile
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
@@ -9,9 +9,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import me.weishu.kernelsu.Natives
-import me.weishu.kernelsu.R
-import me.weishu.kernelsu.ui.component.EditText
+import com.skg.singkosu.Natives
+import com.skg.singkosu.R
+import com.skg.singkosu.ui.component.EditText
 import top.yukonga.miuix.kmp.extra.SuperSwitch
 
 @Composable

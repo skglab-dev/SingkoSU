@@ -1,4 +1,4 @@
-package me.weishu.kernelsu.ui.component
+package com.skg.singkosu.ui.component
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
@@ -15,11 +15,11 @@ import androidx.compose.ui.unit.dp
 import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.HazeStyle
 import dev.chrisbanes.haze.hazeEffect
-import me.weishu.kernelsu.Natives
-import me.weishu.kernelsu.R
-import me.weishu.kernelsu.ui.LocalHandlePageChange
-import me.weishu.kernelsu.ui.LocalSelectedPage
-import me.weishu.kernelsu.ui.util.rootAvailable
+import com.skg.singkosu.Natives
+import com.skg.singkosu.R
+import com.skg.singkosu.ui.LocalHandlePageChange
+import com.skg.singkosu.ui.LocalSelectedPage
+import com.skg.singkosu.ui.util.rootAvailable
 import top.yukonga.miuix.kmp.basic.NavigationBar
 import top.yukonga.miuix.kmp.basic.NavigationItem
 

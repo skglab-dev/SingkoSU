@@ -1,4 +1,4 @@
-package me.weishu.kernelsu.ui.viewmodel
+package com.skg.singkosu.ui.viewmodel
 
 import android.os.SystemClock
 import android.util.Log
@@ -20,12 +20,12 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
-import me.weishu.kernelsu.ksuApp
-import me.weishu.kernelsu.ui.component.SearchStatus
-import me.weishu.kernelsu.ui.util.HanziToPinyin
-import me.weishu.kernelsu.ui.util.isNetworkAvailable
-import me.weishu.kernelsu.ui.util.listModules
-import me.weishu.kernelsu.ui.util.module.sanitizeVersionString
+import com.skg.singkosu.ksuApp
+import com.skg.singkosu.ui.component.SearchStatus
+import com.skg.singkosu.ui.util.HanziToPinyin
+import com.skg.singkosu.ui.util.isNetworkAvailable
+import com.skg.singkosu.ui.util.listModules
+import com.skg.singkosu.ui.util.module.sanitizeVersionString
 import org.json.JSONArray
 import org.json.JSONObject
 import java.text.Collator

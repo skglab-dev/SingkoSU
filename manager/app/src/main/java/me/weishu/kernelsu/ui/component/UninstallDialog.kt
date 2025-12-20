@@ -1,4 +1,4 @@
-package me.weishu.kernelsu.ui.component
+package com.skg.singkosu.ui.component
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.PaddingValues
@@ -17,13 +17,13 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.ramcosta.composedestinations.generated.destinations.FlashScreenDestination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import me.weishu.kernelsu.R
-import me.weishu.kernelsu.ui.screen.FlashIt
-import me.weishu.kernelsu.ui.screen.UninstallType
-import me.weishu.kernelsu.ui.screen.UninstallType.NONE
-import me.weishu.kernelsu.ui.screen.UninstallType.PERMANENT
-import me.weishu.kernelsu.ui.screen.UninstallType.RESTORE_STOCK_IMAGE
-import me.weishu.kernelsu.ui.screen.UninstallType.TEMPORARY
+import com.skg.singkosu.R
+import com.skg.singkosu.ui.screen.FlashIt
+import com.skg.singkosu.ui.screen.UninstallType
+import com.skg.singkosu.ui.screen.UninstallType.NONE
+import com.skg.singkosu.ui.screen.UninstallType.PERMANENT
+import com.skg.singkosu.ui.screen.UninstallType.RESTORE_STOCK_IMAGE
+import com.skg.singkosu.ui.screen.UninstallType.TEMPORARY
 import top.yukonga.miuix.kmp.basic.Icon
 import top.yukonga.miuix.kmp.basic.Text
 import top.yukonga.miuix.kmp.basic.TextButton

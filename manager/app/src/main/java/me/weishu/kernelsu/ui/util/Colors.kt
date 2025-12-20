@@ -1,4 +1,4 @@
-package me.weishu.kernelsu.ui.util
+package com.skg.singkosu.ui.util
 
 import kotlin.math.pow
 

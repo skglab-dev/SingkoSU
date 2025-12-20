@@ -1,4 +1,4 @@
-package me.weishu.kernelsu.ui.screen
+package com.skg.singkosu.ui.screen
 
 import android.content.Context
 import androidx.compose.animation.AnimatedVisibility
@@ -59,15 +59,15 @@ import dev.chrisbanes.haze.HazeStyle
 import dev.chrisbanes.haze.HazeTint
 import dev.chrisbanes.haze.hazeEffect
 import dev.chrisbanes.haze.hazeSource
-import me.weishu.kernelsu.Natives
-import me.weishu.kernelsu.R
-import me.weishu.kernelsu.ui.component.KsuIsValid
-import me.weishu.kernelsu.ui.component.SendLogDialog
-import me.weishu.kernelsu.ui.component.UninstallDialog
-import me.weishu.kernelsu.ui.component.rememberLoadingDialog
-import me.weishu.kernelsu.ui.util.execKsud
-import me.weishu.kernelsu.ui.util.getFeaturePersistValue
-import me.weishu.kernelsu.ui.util.getFeatureStatus
+import com.skg.singkosu.Natives
+import com.skg.singkosu.R
+import com.skg.singkosu.ui.component.KsuIsValid
+import com.skg.singkosu.ui.component.SendLogDialog
+import com.skg.singkosu.ui.component.UninstallDialog
+import com.skg.singkosu.ui.component.rememberLoadingDialog
+import com.skg.singkosu.ui.util.execKsud
+import com.skg.singkosu.ui.util.getFeaturePersistValue
+import com.skg.singkosu.ui.util.getFeatureStatus
 import top.yukonga.miuix.kmp.basic.Card
 import top.yukonga.miuix.kmp.basic.Icon
 import top.yukonga.miuix.kmp.basic.MiuixScrollBehavior

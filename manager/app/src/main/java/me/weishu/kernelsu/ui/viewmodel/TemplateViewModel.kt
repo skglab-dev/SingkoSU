@@ -1,4 +1,4 @@
-package me.weishu.kernelsu.ui.viewmodel
+package com.skg.singkosu.ui.viewmodel
 
 import android.os.Parcelable
 import android.util.Log
@@ -10,13 +10,13 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.parcelize.Parcelize
-import me.weishu.kernelsu.Natives
-import me.weishu.kernelsu.ksuApp
-import me.weishu.kernelsu.profile.Capabilities
-import me.weishu.kernelsu.profile.Groups
-import me.weishu.kernelsu.ui.util.getAppProfileTemplate
-import me.weishu.kernelsu.ui.util.listAppProfileTemplates
-import me.weishu.kernelsu.ui.util.setAppProfileTemplate
+import com.skg.singkosu.Natives
+import com.skg.singkosu.ksuApp
+import com.skg.singkosu.profile.Capabilities
+import com.skg.singkosu.profile.Groups
+import com.skg.singkosu.ui.util.getAppProfileTemplate
+import com.skg.singkosu.ui.util.listAppProfileTemplates
+import com.skg.singkosu.ui.util.setAppProfileTemplate
 import okhttp3.Request
 import org.json.JSONArray
 import org.json.JSONObject

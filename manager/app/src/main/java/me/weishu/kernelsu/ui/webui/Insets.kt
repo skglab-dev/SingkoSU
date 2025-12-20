@@ -1,4 +1,4 @@
-package me.weishu.kernelsu.ui.webui
+package com.skg.singkosu.ui.webui
 
 /**
  * Insets data class from GitHub@MMRLApp/WebUI-X-Portable

@@ -1,4 +1,4 @@
-package me.weishu.kernelsu.ui.screen
+package com.skg.singkosu.ui.screen
 
 import android.app.Activity
 import android.content.Context
@@ -58,16 +58,16 @@ import dev.chrisbanes.haze.HazeStyle
 import dev.chrisbanes.haze.HazeTint
 import dev.chrisbanes.haze.hazeEffect
 import dev.chrisbanes.haze.hazeSource
-import me.weishu.kernelsu.R
-import me.weishu.kernelsu.ui.component.ChooseKmiDialog
-import me.weishu.kernelsu.ui.component.rememberConfirmDialog
-import me.weishu.kernelsu.ui.util.LkmSelection
-import me.weishu.kernelsu.ui.util.getAvailablePartitions
-import me.weishu.kernelsu.ui.util.getCurrentKmi
-import me.weishu.kernelsu.ui.util.getDefaultPartition
-import me.weishu.kernelsu.ui.util.getSlotSuffix
-import me.weishu.kernelsu.ui.util.isAbDevice
-import me.weishu.kernelsu.ui.util.rootAvailable
+import com.skg.singkosu.R
+import com.skg.singkosu.ui.component.ChooseKmiDialog
+import com.skg.singkosu.ui.component.rememberConfirmDialog
+import com.skg.singkosu.ui.util.LkmSelection
+import com.skg.singkosu.ui.util.getAvailablePartitions
+import com.skg.singkosu.ui.util.getCurrentKmi
+import com.skg.singkosu.ui.util.getDefaultPartition
+import com.skg.singkosu.ui.util.getSlotSuffix
+import com.skg.singkosu.ui.util.isAbDevice
+import com.skg.singkosu.ui.util.rootAvailable
 import top.yukonga.miuix.kmp.basic.ButtonDefaults
 import top.yukonga.miuix.kmp.basic.Card
 import top.yukonga.miuix.kmp.basic.Icon

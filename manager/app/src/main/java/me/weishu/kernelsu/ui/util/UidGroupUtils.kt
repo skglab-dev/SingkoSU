@@ -1,8 +1,8 @@
-package me.weishu.kernelsu.ui.util
+package com.skg.singkosu.ui.util
 
-import me.weishu.kernelsu.Natives
-import me.weishu.kernelsu.ksuApp
-import me.weishu.kernelsu.ui.viewmodel.SuperUserViewModel
+import com.skg.singkosu.Natives
+import com.skg.singkosu.ksuApp
+import com.skg.singkosu.ui.viewmodel.SuperUserViewModel
 
 private val PREFERRED_PKG_BY_SUID = mapOf(
     "android.uid.system" to "android",

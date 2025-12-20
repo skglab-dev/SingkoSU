@@ -1,4 +1,4 @@
-package me.weishu.kernelsu.ui.component
+package com.skg.singkosu.ui.component
 
 import android.content.Context
 import android.content.Intent
@@ -22,12 +22,12 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.net.toUri
 import androidx.webkit.WebViewAssetLoader
-import me.weishu.kernelsu.ksuApp
-import me.weishu.kernelsu.ui.theme.isInDarkTheme
-import me.weishu.kernelsu.ui.util.adjustLightnessArgb
-import me.weishu.kernelsu.ui.util.cssColorFromArgb
-import me.weishu.kernelsu.ui.util.ensureVisibleByMix
-import me.weishu.kernelsu.ui.util.relativeLuminance
+import com.skg.singkosu.ksuApp
+import com.skg.singkosu.ui.theme.isInDarkTheme
+import com.skg.singkosu.ui.util.adjustLightnessArgb
+import com.skg.singkosu.ui.util.cssColorFromArgb
+import com.skg.singkosu.ui.util.ensureVisibleByMix
+import com.skg.singkosu.ui.util.relativeLuminance
 import okhttp3.Headers.Companion.toHeaders
 import okhttp3.OkHttpClient
 import okhttp3.Request

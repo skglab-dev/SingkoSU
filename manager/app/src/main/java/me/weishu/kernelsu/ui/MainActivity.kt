@@ -1,4 +1,4 @@
-package me.weishu.kernelsu.ui
+package com.skg.singkosu.ui
 
 import android.annotation.SuppressLint
 import android.content.SharedPreferences
@@ -53,18 +53,18 @@ import dev.chrisbanes.haze.hazeSource
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import me.weishu.kernelsu.Natives
-import me.weishu.kernelsu.R
-import me.weishu.kernelsu.ui.component.BottomBar
-import me.weishu.kernelsu.ui.component.rememberConfirmDialog
-import me.weishu.kernelsu.ui.screen.FlashIt
-import me.weishu.kernelsu.ui.screen.HomePager
-import me.weishu.kernelsu.ui.screen.ModulePager
-import me.weishu.kernelsu.ui.screen.SettingPager
-import me.weishu.kernelsu.ui.screen.SuperUserPager
-import me.weishu.kernelsu.ui.theme.KernelSUTheme
-import me.weishu.kernelsu.ui.util.getFileName
-import me.weishu.kernelsu.ui.util.install
+import com.skg.singkosu.Natives
+import com.skg.singkosu.R
+import com.skg.singkosu.ui.component.BottomBar
+import com.skg.singkosu.ui.component.rememberConfirmDialog
+import com.skg.singkosu.ui.screen.FlashIt
+import com.skg.singkosu.ui.screen.HomePager
+import com.skg.singkosu.ui.screen.ModulePager
+import com.skg.singkosu.ui.screen.SettingPager
+import com.skg.singkosu.ui.screen.SuperUserPager
+import com.skg.singkosu.ui.theme.KernelSUTheme
+import com.skg.singkosu.ui.util.getFileName
+import com.skg.singkosu.ui.util.install
 import top.yukonga.miuix.kmp.basic.Scaffold
 import top.yukonga.miuix.kmp.theme.MiuixTheme
 

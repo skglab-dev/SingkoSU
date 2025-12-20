@@ -1,4 +1,4 @@
-package me.weishu.kernelsu.ui.webui
+package com.skg.singkosu.ui.webui
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -8,7 +8,7 @@ import android.graphics.drawable.Drawable
 import android.util.LruCache
 import androidx.core.graphics.createBitmap
 import androidx.core.graphics.scale
-import me.weishu.kernelsu.ui.viewmodel.SuperUserViewModel.Companion.getAppIconDrawable
+import com.skg.singkosu.ui.viewmodel.SuperUserViewModel.Companion.getAppIconDrawable
 
 object AppIconUtil {
     // Limit cache size to 200 icons

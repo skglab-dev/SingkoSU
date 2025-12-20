@@ -1,4 +1,4 @@
-package me.weishu.kernelsu
+package com.skg.singkosu
 
 import android.system.Os
 

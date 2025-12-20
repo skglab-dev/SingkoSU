@@ -1,4 +1,4 @@
-package me.weishu.kernelsu.ui.viewmodel
+package com.skg.singkosu.ui.viewmodel
 
 import android.util.Log
 import android.widget.Toast
@@ -12,11 +12,11 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import me.weishu.kernelsu.R
-import me.weishu.kernelsu.ksuApp
-import me.weishu.kernelsu.ui.component.SearchStatus
-import me.weishu.kernelsu.ui.util.HanziToPinyin
-import me.weishu.kernelsu.ui.util.isNetworkAvailable
+import com.skg.singkosu.R
+import com.skg.singkosu.ksuApp
+import com.skg.singkosu.ui.component.SearchStatus
+import com.skg.singkosu.ui.util.HanziToPinyin
+import com.skg.singkosu.ui.util.isNetworkAvailable
 import okhttp3.Request
 import org.json.JSONArray
 import org.json.JSONObject

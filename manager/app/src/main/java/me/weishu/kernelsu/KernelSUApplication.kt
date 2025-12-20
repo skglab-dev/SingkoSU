@@ -1,11 +1,11 @@
-package me.weishu.kernelsu
+package com.skg.singkosu
 
 import android.app.Application
 import android.system.Os
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.ViewModelStoreOwner
-import me.weishu.kernelsu.ui.viewmodel.SuperUserViewModel
+import com.skg.singkosu.ui.viewmodel.SuperUserViewModel
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import java.io.File

@@ -1,4 +1,4 @@
-package me.weishu.kernelsu.ui.component.profile
+package com.skg.singkosu.ui.component.profile
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
@@ -26,12 +26,12 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import me.weishu.kernelsu.Natives
-import me.weishu.kernelsu.R
-import me.weishu.kernelsu.profile.Capabilities
-import me.weishu.kernelsu.profile.Groups
-import me.weishu.kernelsu.ui.component.SuperEditArrow
-import me.weishu.kernelsu.ui.util.isSepolicyValid
+import com.skg.singkosu.Natives
+import com.skg.singkosu.R
+import com.skg.singkosu.profile.Capabilities
+import com.skg.singkosu.profile.Groups
+import com.skg.singkosu.ui.component.SuperEditArrow
+import com.skg.singkosu.ui.util.isSepolicyValid
 import top.yukonga.miuix.kmp.basic.ButtonDefaults
 import top.yukonga.miuix.kmp.basic.TextButton
 import top.yukonga.miuix.kmp.basic.TextField

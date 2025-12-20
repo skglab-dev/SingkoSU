@@ -1,4 +1,4 @@
-package me.weishu.kernelsu.ui.util
+package com.skg.singkosu.ui.util
 
 import android.annotation.SuppressLint
 import android.app.DownloadManager
@@ -14,8 +14,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
-import me.weishu.kernelsu.ksuApp
-import me.weishu.kernelsu.ui.util.module.LatestVersionInfo
+import com.skg.singkosu.ksuApp
+import com.skg.singkosu.ui.util.module.LatestVersionInfo
 import okhttp3.Request
 import java.io.File
 import java.io.FileOutputStream

@@ -1,7 +1,7 @@
-package me.weishu.kernelsu.ui.util.module
+package com.skg.singkosu.ui.util.module
 
-import me.weishu.kernelsu.ksuApp
-import me.weishu.kernelsu.ui.util.isNetworkAvailable
+import com.skg.singkosu.ksuApp
+import com.skg.singkosu.ui.util.isNetworkAvailable
 import okhttp3.Request
 import org.json.JSONArray
 import org.json.JSONObject

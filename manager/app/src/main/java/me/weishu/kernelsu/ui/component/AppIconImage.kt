@@ -1,4 +1,4 @@
-package me.weishu.kernelsu.ui.component
+package com.skg.singkosu.ui.component
 
 import android.content.pm.PackageInfo
 import androidx.compose.foundation.Image

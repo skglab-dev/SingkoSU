@@ -1,4 +1,4 @@
-package me.weishu.kernelsu.ui.screen
+package com.skg.singkosu.ui.screen
 
 import android.content.Context
 import android.content.pm.ApplicationInfo
@@ -70,17 +70,17 @@ import dev.chrisbanes.haze.HazeTint
 import dev.chrisbanes.haze.hazeSource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import me.weishu.kernelsu.Natives
-import me.weishu.kernelsu.R
-import me.weishu.kernelsu.ksuApp
-import me.weishu.kernelsu.ui.component.AppIconImage
-import me.weishu.kernelsu.ui.component.DropdownItem
-import me.weishu.kernelsu.ui.component.SearchBox
-import me.weishu.kernelsu.ui.component.SearchPager
-import me.weishu.kernelsu.ui.theme.isInDarkTheme
-import me.weishu.kernelsu.ui.util.ownerNameForUid
-import me.weishu.kernelsu.ui.util.pickPrimary
-import me.weishu.kernelsu.ui.viewmodel.SuperUserViewModel
+import com.skg.singkosu.Natives
+import com.skg.singkosu.R
+import com.skg.singkosu.ksuApp
+import com.skg.singkosu.ui.component.AppIconImage
+import com.skg.singkosu.ui.component.DropdownItem
+import com.skg.singkosu.ui.component.SearchBox
+import com.skg.singkosu.ui.component.SearchPager
+import com.skg.singkosu.ui.theme.isInDarkTheme
+import com.skg.singkosu.ui.util.ownerNameForUid
+import com.skg.singkosu.ui.util.pickPrimary
+import com.skg.singkosu.ui.viewmodel.SuperUserViewModel
 import top.yukonga.miuix.kmp.basic.BasicComponent
 import top.yukonga.miuix.kmp.basic.Card
 import top.yukonga.miuix.kmp.basic.Icon

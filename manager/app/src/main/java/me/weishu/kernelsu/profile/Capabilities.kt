@@ -1,4 +1,4 @@
-package me.weishu.kernelsu.profile
+package com.skg.singkosu.profile
 
 /**
  * @author weishu

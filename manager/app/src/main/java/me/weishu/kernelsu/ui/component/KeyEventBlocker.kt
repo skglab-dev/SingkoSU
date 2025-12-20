@@ -1,4 +1,4 @@
-package me.weishu.kernelsu.ui.component
+package com.skg.singkosu.ui.component
 
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Box

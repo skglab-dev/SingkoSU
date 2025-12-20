@@ -1,4 +1,4 @@
-package me.weishu.kernelsu.ui
+package com.skg.singkosu.ui
 
 import android.content.Intent
 import android.content.pm.PackageInfo
@@ -8,7 +8,7 @@ import android.os.UserHandle
 import android.os.UserManager
 import android.util.Log
 import com.topjohnwu.superuser.ipc.RootService
-import me.weishu.kernelsu.IKsuInterface
+import com.skg.singkosu.IKsuInterface
 import rikka.parcelablelist.ParcelableListSlice
 
 /**

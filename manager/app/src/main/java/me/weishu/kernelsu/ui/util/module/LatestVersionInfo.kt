@@ -1,4 +1,4 @@
-package me.weishu.kernelsu.ui.util.module
+package com.skg.singkosu.ui.util.module
 
 data class LatestVersionInfo(
     val versionCode: Int = 0,
