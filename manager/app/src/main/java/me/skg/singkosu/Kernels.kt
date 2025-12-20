@@ -19,9 +19,9 @@ data class KernelVersion(val major: Int, val patchLevel: Int, val subLevel: Int)
             return true
         }
 
-        // kernel 5.10.x
+        // kernel 5.4.x
         if (major == 5) {
-            return patchLevel >= 10
+            return patchLevel >= 4
         }
 
         return false
