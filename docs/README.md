@@ -1,8 +1,8 @@
 **English** | [Español](README_ES.md) | [简体中文](README_CN.md) | [繁體中文](README_TW.md) | [日本語](README_JP.md) | [한국어](README_KR.md) | [Polski](README_PL.md) | [Português (Brasil)](README_PT-BR.md) | [Türkçe](README_TR.md) | [Русский](README_RU.md) | [Tiếng Việt](README_VI.md) | [Indonesia](README_ID.md) | [עברית](README_IW.md) | [हिंदी](README_IN.md) | [Italiano](README_IT.md)
 
-# KernelSU
+# SingkoSU(KernelSU fork)
 
-<img src="https://kernelsu.org/logo.png" style="width: 96px;" alt="logo">
+<img src="https://cdn.discordapp.com/attachments/983803161842159636/1452367762017095811/SingkoSU.png?ex=69498e62&is=69483ce2&hm=3c501b046d3aae32dbe0e916cf4154cb99d7acb83d4a3f294ee85cf0c3febb8b&" style="width: 96px;" alt="logo">
 
 A kernel-based root solution for Android devices.
 
@@ -20,7 +20,13 @@ A kernel-based root solution for Android devices.
 
 ## Compatibility state
 
-KernelSU officially supports Android GKI 2.0 devices (kernel 5.10+). Older kernels (4.14+) are also supported, but the kernel will need to be built manually.
+SingkoSU officialy supported kernel:
+
+`4.4 - 4.18 (Legacy)`
+
+`4.19 - 5.4 (GKI1)`
+
+`5.10 - 6.xx (GKI2)`
 
 With this, WSA, ChromeOS, and container-based Android are all supported.
 
