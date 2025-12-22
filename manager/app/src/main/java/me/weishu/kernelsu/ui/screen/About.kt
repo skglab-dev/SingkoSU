@@ -132,7 +132,7 @@ fun AboutScreen(navigator: DestinationsNavigator) {
                             .background(Color.White)
                     ) {
                         Image(
-                            painter = painterResource(id = R.drawable.ic_launcher_foreground),
+                            painter = painterResource(id = R.mipmap.ic_launcher_foreground),
                             contentDescription = "icon",
                             contentScale = FixedScale(1f)
                         )
