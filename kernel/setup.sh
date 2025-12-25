@@ -31,8 +31,8 @@ perform_cleanup() {
     [ -L "$DRIVER_DIR/kernelsu" ] && rm "$DRIVER_DIR/kernelsu" && echo "[-] Symlink removed."
     grep -q "kernelsu" "$DRIVER_MAKEFILE" && sed -i '/kernelsu/d' "$DRIVER_MAKEFILE" && echo "[-] Makefile reverted."
     grep -q "drivers/kernelsu/Kconfig" "$DRIVER_KCONFIG" && sed -i '/drivers\/kernelsu\/Kconfig/d' "$DRIVER_KCONFIG" && echo "[-] Kconfig reverted."
-    if [ -d "$GKI_ROOT/SingkoSU" ]; then
-        rm -rf "$GKI_ROOT/SingkoSU" && echo "[-] KernelSU directory deleted."
+    if [ -d "$GKI_ROOT/KernelSU" ]; then
+        rm -rf "$GKI_ROOT/KernelSU" && echo "[-] KernelSU directory deleted."
     fi
 }
 
