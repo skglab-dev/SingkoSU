@@ -104,6 +104,7 @@ import top.yukonga.miuix.kmp.utils.scrollEndHaptic
  * @date 2023/5/16.
  */
 @Composable
+@Preview
 @Destination<RootGraph>
 fun AppProfileScreen(
     navigator: DestinationsNavigator,
